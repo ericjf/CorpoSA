@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Corpo SA</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_inicio">Inicio</string>
+    <string name="title_activity_noticias">Noticias</string>
+    <string name="title_activity_tratamentos">Tratamentos</string>
+    <string name="title_activity_tratamento">Tratamento</string>
+    <string name="title_activity_test">TestActivity</string>
+
+</resources>
