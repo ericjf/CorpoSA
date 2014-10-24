@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -14,7 +15,10 @@ public class Tratamentos extends ListActivity {
     @Override
     public void onCreate(Bundle icicle){
         super.onCreate(icicle);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         ArrayList<SingleList> list = new ArrayList<SingleList>();
+
+
         list.add(new SingleList("Medida Certa S/A", SingleList.MEDIDACERTA));
         list.add(new SingleList("Modelagem S/A", SingleList.MODELAGEM));
         list.add(new SingleList("Carbox S/A", SingleList.CARBOX));
@@ -22,9 +26,10 @@ public class Tratamentos extends ListActivity {
         list.add(new SingleList("Noivas S/A", SingleList.NOIVAS));
         list.add(new SingleList("Facial  5 semanas", SingleList.FACIAL5));
         list.add(new SingleList("Turbinada S/A 5 semanas", SingleList.TURBINADA));
-        list.add(new SingleList("Alimentos e suplementos S/A", SingleList.ALIMENTOSESUP));
+        list.add(new SingleList("Mais S/A", SingleList.MAISSA));
 
         setListAdapter(new SingleImageListAdapter(this, list));
+
     }
 
     @Override

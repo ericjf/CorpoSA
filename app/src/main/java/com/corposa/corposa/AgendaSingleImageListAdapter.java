@@ -1,25 +1,27 @@
 package com.corposa.corposa;
 
-
+import android.app.ActionBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 /**
- * Created by Eric Teixeira on 13/09/2014.
+ * Created by Eric Teixeira on 20/10/2014.
  */
-public class SingleImageListAdapter extends BaseAdapter {
+public class AgendaSingleImageListAdapter extends BaseAdapter {
     private Context context;
 
-    private List<SingleList> lista;
+    private List<AgendaSingleList> lista;
 
-    public SingleImageListAdapter(Context context, List<SingleList> lista){
+    public AgendaSingleImageListAdapter(Context context, List<AgendaSingleList> lista){
         this.context = context;
         this.lista = lista;
     }
@@ -35,18 +37,20 @@ public class SingleImageListAdapter extends BaseAdapter {
     }
 
     public View getView(int posicao, View convertView, ViewGroup parent){
-        SingleList singleList = lista.get(posicao);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        AgendaSingleList singleList = lista.get(posicao);
 
-        View v = inflater.inflate(R.layout.singlelist_detalhes, null);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflater.inflate(R.layout.singlelsit_detalhes_agenda, null);
 
         TextView textNome = (TextView) v.findViewById(R.id.nome);
+        TextView textDate = (TextView) v.findViewById(R.id.data);
+        textDate.setText(singleList.data);
         textNome.setText(singleList.nome);
-
-
-
         ImageView img = (ImageView) v.findViewById(R.id.img);
         img.setImageResource(singleList.getImagem());
+
+
+
 
         return v;
     }

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:src="@drawable/face"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Facial 5 Semanas"
+                android:id="@+id/textView"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="44dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Investimento:"
+                    android:id="@+id/textView2"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="10x R$49,00"
+                    android:id="@+id/textView3"
+                    android:layout_marginLeft="20dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Objetivos do Programa:"
+                android:id="@+id/textView4"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Limpeza mais profunda da pele"
+                android:id="@+id/textView5"
+                android:paddingLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Redução de manchas superficiais"
+                android:id="@+id/textView6"
+                android:paddingLeft="20dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Melhoria do aspecto da pelez"
+                android:id="@+id/textView7"
+                android:paddingLeft="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Aumento do tônus"
+                android:id="@+id/textView72"
+                android:paddingLeft="20dp"/>
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Tratamentos inclusos:"
+                android:id="@+id/textView10"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:padding="10dp"
+                android:paddingBottom="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="01 limpeza de pele"
+                android:id="@+id/textView11"
+                android:paddingLeft="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="05 sessões de peeling de diamante"
+                android:id="@+id/textView113"
+                android:paddingLeft="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="05 sessões de radiofrequência"
+                android:id="@+id/textView121"
+                android:paddingLeft="20dp"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

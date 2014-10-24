@@ -4,12 +4,15 @@ package com.corposa.corposa;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Window;
 
 public class Tratamento extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //Intent intent = getIntent();
         //String posicao = intent.getStringExtra("posicao");
 
@@ -32,6 +35,15 @@ public class Tratamento extends ActionBarActivity {
             setContentView(R.layout.noiva);
         }
 
+        if (posicao == 5){
+            setContentView(R.layout.facial);
+        }
+        if (posicao == 6){
+            setContentView(R.layout.turbinada);
+        }
+        if (posicao == 7){
+            setContentView(R.layout.maissa);
+        }
 
         //ArrayList<String> titulo = new ArrayList<String>();
         // ArrayList<String> desc = new ArrayList<String>();

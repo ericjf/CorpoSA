@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Descrição:"
+            android:id="@+id/textView2"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/desc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:inputType="textEmailAddress" />
+
+
+    </LinearLayout>
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:clickable="false"
+        android:paddingTop="10dp"/>
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"/>
+
+    <Button
+        android:id="@+id/selectButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onDateSelectedButtonClick"
+        android:text="Salvar"
+        android:paddingTop="10dp"/>
+
+</LinearLayout>
+</ScrollView>
+</LinearLayout>

@@ -12,7 +12,7 @@ public class SingleList {
     public static final int NOIVAS = 4;
     public static final int FACIAL5 = 5;
     public static final int TURBINADA = 6;
-    public static final int ALIMENTOSESUP = 7;
+    public static final int MAISSA = 7;
 
     public String nome;
     public int id;
@@ -31,11 +31,15 @@ public class SingleList {
      */
 
     public int getImagem(){
+
+
+
+
         switch (tipo){
             case MEDIDACERTA:
-                return R.drawable.corposa;
+                return R.drawable.medidacerta;
             case MODELAGEM :
-                return R.drawable.corposa;
+                return R.drawable.modelagemsa;
             case CARBOX:
                 return R.drawable.corposa;
             case POSPARTO:
@@ -46,7 +50,7 @@ public class SingleList {
                 return R.drawable.corposa;
             case TURBINADA:
                 return R.drawable.corposa;
-            case ALIMENTOSESUP :
+            case MAISSA :
                 return R.drawable.corposa;
 
         }

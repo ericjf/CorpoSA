@@ -9,5 +9,10 @@
     <string name="title_activity_tratamentos">Tratamentos</string>
     <string name="title_activity_tratamento">Tratamento</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_agenda">Agenda</string>
+    <string name="title_activity_agenda_adicionar">AgendaAdicionar</string>
+    <string name="title_activity_noticia">NoticiaActivity</string>
+    <string name="title_activity_action_bar">ActionBar</string>
+    <string name="title_activity_compromissos">Compromissos</string>
 
 </resources>

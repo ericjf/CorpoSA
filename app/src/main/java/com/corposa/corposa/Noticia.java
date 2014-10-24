@@ -12,11 +12,12 @@ public class Noticia {
 
 
     public Noticia(){}
-    public Noticia (String title, String description, int position, String url){
+    public Noticia (int position, String title, String description, String url){
         super();
         this.title = title;
         this.description = description;
         this.url = url;
+
     }
 
     //getters e setters
@@ -48,5 +49,7 @@ public class Noticia {
     public String getUrl(){
         return this.url;
     }
+
+
 
 }
