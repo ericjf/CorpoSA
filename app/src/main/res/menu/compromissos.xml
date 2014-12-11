@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <!-- Search, should appear as action button -->
+
+
     <item android:id="@+id/action_search"
         android:title="Adicionar"
         android:showAsAction="ifRoom" />
-    <item android:id="@+id/voltar"
-        android:title="Voltar"
-        android:showAsAction="ifRoom" />
+
     <!-- Settings, should always be in the overflow -->
 
 </menu>

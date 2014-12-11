@@ -21,8 +21,8 @@ public class AgendaSingleList {
      * @return
      */
 
-    public int getImagem() {
-        return R.drawable.abc_ic_clear;
-    }
+    //public int getImagem() {
+   //     return R.drawable.
+   // }
 
 }

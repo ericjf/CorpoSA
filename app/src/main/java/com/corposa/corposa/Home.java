@@ -6,6 +6,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -31,46 +34,71 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
+
 public class Home extends TabActivity implements TabHost.OnTabChangeListener {
 
-    private static final String CATEGORIA = "livro";
     ImageView image;
     Button button;
     ProgressDialog mProgressDialog;
+    GoogleCloudMessaging gcm;
+    String SENDER_ID = "866649988233";
+    String regid;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+        registerInBackground();
+
         super.onCreate(savedInstanceState);
         TabHost tabHost = getTabHost();
         tabHost.setOnTabChangedListener(this);
+
+
+
         // call AsynTask to perform network operation on separate thread
         new HttpAsyncTask().execute("http://162.243.229.85/getnews.php");
 
         // Inicializando Tab Início
         TabHost.TabSpec tab_inicio = tabHost.newTabSpec("Início");
-        tab_inicio.setIndicator("Início", getResources().getDrawable(android.R.drawable.ic_dialog_dialer));
+        tab_inicio.setIndicator("", getResources().getDrawable(R.drawable.homeroboto));
+
         tab_inicio.setContent(new Intent(this, Inicio.class));
         tabHost.addTab(tab_inicio);
 
         //Inicializando Tab Notícias
         TabHost.TabSpec tab_noticias = tabHost.newTabSpec("Notícias");
-        tab_noticias.setIndicator("Notícias", getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
+        tab_noticias.setIndicator("", getResources().getDrawable(R.drawable.noticias));
         tab_noticias.setContent(new Intent (this, Noticias.class));
         tabHost.addTab(tab_noticias);
 
         //Inicializando Tab Tratamentos
         TabHost.TabSpec tab_tratamentos = tabHost.newTabSpec("Tratamentos");
-        tab_tratamentos.setIndicator("Tratamentos", getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
-        tab_tratamentos.setContent(new Intent (this, Tratamentos.class));
+        tab_tratamentos.setIndicator("", getResources().getDrawable(R.drawable.tratamentosicon2));
+        tab_tratamentos.setContent(new Intent(this, Tratamentos.class));
         tabHost.addTab(tab_tratamentos);
 
         TabHost.TabSpec tab_agenda = tabHost.newTabSpec("Agenda");
-        tab_agenda.setIndicator("Agenda", getResources().getDrawable(android.R.drawable.ic_dialog_dialer));
+        tab_agenda.setIndicator("", getResources().getDrawable(R.drawable.agendaicon));
         tab_agenda.setContent(new Intent(this, Agenda.class));
         tabHost.addTab(tab_agenda);
+
+
+        for(int i=0;i<tabHost.getTabWidget().getChildCount();i++)
+        {
+            if (i == 0) tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#F6E6E7"));
+
+            else tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+
+        //for(int i=0; i<tabHost.getTabWidget().getChildCount();i++)
+        //{
+        //    tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#8A4117"));
+        //}
+        //tabHost.getTabWidget().setCurrentTab(1);
+        //tabHost.getTabWidget().getChildAt(1).setBackgroundColor(Color.parseColor("#C35817"));
 
     }
 
@@ -83,6 +111,45 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
    //     tv.setText("Utilizando uma Factory bla bla bla" + tabId);
    //     return tv;
    // }
+    private void registerInBackground() {
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                    }
+                    regid = gcm.register(SENDER_ID);
+                    msg = "Device registered, registration ID=" + regid;
+
+                    Log.i("ID", regid);
+
+                    // You should send the registration ID to your server over HTTP, so it
+                    // can use GCM/HTTP or CCS to send messages to your app.
+                    //sendRegistrationIdToBackend();
+
+                    // For this demo: we don't need to send it because the device will send
+                    // upstream messages to a server that echo back the message using the
+                    // 'from' address in the message.
+
+                    // Persist the regID - no need to register again.
+                    //storeRegistrationId(context, regid);
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+                    // If there is an error, don't just keep trying to register.
+                    // Require the user to click a button again, or perform
+                    // exponential back-off.
+                }
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                Log.i("ID", regid);
+            }
+        }.execute(null, null, null);
+    }
 
     public static String GET(String url){
         InputStream inputStream = null;
@@ -233,8 +300,21 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
      * @see android.widget.TabHost.OnTabChangeListener#onTabChanged(String)
      */
 
-    public void onTabChanged(String tabId){
-    //    Log.i(CATEGORIA, "Trocou" + tabId);
+    //public void onTabChanged(String tabId){
+    ////    Log.i(CATEGORIA, "Trocou" + tabId);
+   // }
+    @Override
+    public void onTabChanged(String tabId) {
+        // TODO Auto-generated method stub
+        TabHost tabHost = getTabHost();
+        for(int i=0;i<tabHost.getTabWidget().getChildCount();i++)
+        {
+            tabHost.getTabWidget().getChildAt(i).setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+
+        tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#F6E6E7"));
     }
+
+
 
 }

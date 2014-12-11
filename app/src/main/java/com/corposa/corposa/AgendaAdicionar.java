@@ -23,6 +23,9 @@ public class AgendaAdicionar extends Activity {
         Button buyButton = new Button(this);
         this.setContentView(buyButton);
         super.onCreate(savedInstanceState);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_agenda_adicionar);
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         timePicker = (TimePicker) findViewById(R.id.timePicker);

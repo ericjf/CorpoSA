@@ -1,18 +1,21 @@
 package com.corposa.corposa;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Window;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-public class Tratamento extends ActionBarActivity {
+public class Tratamento extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         //Intent intent = getIntent();
         //String posicao = intent.getStringExtra("posicao");
 
@@ -61,19 +64,28 @@ public class Tratamento extends ActionBarActivity {
 
 
         //ArrayList<TextView> arrayDesc = new ArrayList<TextView>();
-
-
-
-
         //TextView textNome = (TextView) findViewById(R.id.tratamentotitle);
         //textNome.setText(titulo.get(posicao));
-
-
         //TextView textDesc = (TextView) findViewById(R.id.tratamentodesc);
         // textDesc.setText("namala");
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.agenda_adicionar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent intent = new Intent(this, Home.class);
+        startActivity(intent);
 
 
+        return true;
     }
 
 }

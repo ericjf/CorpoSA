@@ -1,14 +1,10 @@
 package com.corposa.corposa;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,8 +42,8 @@ public class AgendaSingleImageListAdapter extends BaseAdapter {
         TextView textDate = (TextView) v.findViewById(R.id.data);
         textDate.setText(singleList.data);
         textNome.setText(singleList.nome);
-        ImageView img = (ImageView) v.findViewById(R.id.img);
-        img.setImageResource(singleList.getImagem());
+        //ImageView img = (ImageView) v.findViewById(R.id.img);
+        //img.setImageResource(singleList.getImagem());
 
 
 

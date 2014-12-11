@@ -3,12 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.corposa.corposa.Noticias" >
 
-    <item android:id="@+id/action_search"
-
-        android:title="voltar"
-        android:showAsAction="always"
-        android:actionViewClass="android.widget.SearchView"
-        android:onClick="voltar"/>
 
 </menu>
 

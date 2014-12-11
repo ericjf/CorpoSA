@@ -1,6 +1,8 @@
 package com.corposa.corposa;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,14 +16,18 @@ import java.util.List;
 
 public class Compromissos extends ListActivity{
 
-    static final ArrayList<PositionId> positionId = new ArrayList<PositionId>();
+    static final ArrayList<PositionIntId> positionIntIds = new ArrayList<PositionIntId>();
+    DBAgenda databaseHelper = new DBAgenda(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         ArrayList<AgendaSingleList> list = new ArrayList<AgendaSingleList>();
 
-        DBAgenda databaseHelper = new DBAgenda(this);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
 
         List<Compromisso> agendaObjetos = databaseHelper.getAllContacts();
@@ -32,6 +38,10 @@ public class Compromissos extends ListActivity{
         while(i < flag){
 
             list.add(new AgendaSingleList(agendaObjetos.get(i).desc, agendaObjetos.get(i).getID(), agendaObjetos.get(i).getPhoneNumber()));
+            PositionIntId posicaoIntId = new PositionIntId();
+            posicaoIntId.id = agendaObjetos.get(i).getID();
+            posicaoIntId.position = i;
+            positionIntIds.add(posicaoIntId);
             i++;
         }
 
@@ -64,18 +74,39 @@ public class Compromissos extends ListActivity{
             case R.id.action_search:
                 Intent intent = new Intent(this, AgendaAdicionar.class);
                 startActivity(intent);
-                return true;
-            case R.id.voltar:
-                Intent intent2 = new Intent(this, Home.class);
-                startActivity(intent2);
+                this.finish();
                 return true;
             default:
+                intent = new Intent(this, Home.class);
+                startActivity(intent);
+                this.finish();
                 return true;
         }
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id){
+    protected void onListItemClick(ListView l, View v, final int position, long id){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("Apagar")
+                .setMessage("Você tem certeza que deseja Apagar esse Compromisso?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        databaseHelper.deleteContact(positionIntIds.get(position).id);
+
+                        Intent thisIntent = getIntent();
+                        startActivity(thisIntent);
+                        finish();
+
+                    }
+                })
+                .setNegativeButton("Não", null)						//Do nothing on no
+                .show();
+
+
+
+
         // super.onListItemClick(l,v,position, id);
         //SingleList singlelist = (SingleList) this.getListAdapter().getItem(position);
 

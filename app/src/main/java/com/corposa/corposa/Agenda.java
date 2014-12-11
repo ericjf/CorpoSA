@@ -27,6 +27,7 @@ public class Agenda extends ListActivity {
 
         Intent intent = new Intent(this, AgendaAdicionar.class);
         startActivity(intent);
+        finish();
 
     }
 

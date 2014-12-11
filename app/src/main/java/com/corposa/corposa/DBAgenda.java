@@ -124,10 +124,10 @@ public class DBAgenda extends SQLiteOpenHelper {
     }
 
     // Deleting single contact
-    public void deleteContact(Compromisso contact) {
+    public void deleteContact(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
+                new String[] { String.valueOf(id) });
         db.close();
     }
 

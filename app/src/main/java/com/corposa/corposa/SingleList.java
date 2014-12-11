@@ -41,13 +41,13 @@ public class SingleList {
             case MODELAGEM :
                 return R.drawable.modelagemsa;
             case CARBOX:
-                return R.drawable.corposa;
+                return R.drawable.carbox;
             case POSPARTO:
                 return R.drawable.corposa;
             case NOIVAS :
-                return R.drawable.corposa;
+                return R.drawable.noivasa;
             case FACIAL5:
-                return R.drawable.corposa;
+                return R.drawable.face;
             case TURBINADA:
                 return R.drawable.corposa;
             case MAISSA :
