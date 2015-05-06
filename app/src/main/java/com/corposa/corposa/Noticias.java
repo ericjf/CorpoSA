@@ -36,7 +36,8 @@ public class Noticias extends ListActivity {
             while (i < flag) {
                 String string_id = Integer.toString(noticiateste.get(i).getId());
                 String string_nome = noticiateste.get(i).getTitle();
-                list.add(new NoticiaSingleList(string_nome, string_id, this));
+                String string_trueid = Integer.toString(noticiateste.get(i).getTrueId());
+                list.add(new NoticiaSingleList(string_nome, string_id, this, string_trueid));
                 PositionId positionId = new PositionId();
                 positionId.id = string_id;
                 positionId.position = i;

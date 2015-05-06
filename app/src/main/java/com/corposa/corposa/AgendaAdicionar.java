@@ -23,6 +23,7 @@ public class AgendaAdicionar extends Activity {
         Button buyButton = new Button(this);
         this.setContentView(buyButton);
         super.onCreate(savedInstanceState);
+        setTitle("Agenda");
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -34,7 +35,7 @@ public class AgendaAdicionar extends Activity {
 
     public void onDateSelectedButtonClick(View v){
         int day =  datePicker.getDayOfMonth();
-        int month =  datePicker.getMonth();
+        int month =  datePicker.getMonth() + 1;
         int year =  datePicker.getYear();
 
         int hour = timePicker.getCurrentHour();

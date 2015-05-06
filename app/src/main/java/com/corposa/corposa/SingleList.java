@@ -37,21 +37,21 @@ public class SingleList {
 
         switch (tipo){
             case MEDIDACERTA:
-                return R.drawable.medidacerta;
+                return R.drawable.imgmedida;
             case MODELAGEM :
-                return R.drawable.modelagemsa;
+                return R.drawable.imgmodelagem;
             case CARBOX:
-                return R.drawable.carbox;
+                return R.drawable.imgcarbox;
             case POSPARTO:
-                return R.drawable.corposa;
+                return R.drawable.imgposparto;
             case NOIVAS :
-                return R.drawable.noivasa;
+                return R.drawable.imgnoivas;
             case FACIAL5:
-                return R.drawable.face;
+                return R.drawable.imgfacial;
             case TURBINADA:
-                return R.drawable.corposa;
+                return R.drawable.imgturbinada;
             case MAISSA :
-                return R.drawable.corposa;
+                return R.drawable.imgmais;
 
         }
 

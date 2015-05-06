@@ -22,10 +22,10 @@ public class Tratamentos extends ListActivity {
         list.add(new SingleList("Medida Certa S/A", SingleList.MEDIDACERTA));
         list.add(new SingleList("Modelagem S/A", SingleList.MODELAGEM));
         list.add(new SingleList("Carbox S/A", SingleList.CARBOX));
-        list.add(new SingleList("Pós Parto", SingleList.POSPARTO));
+        list.add(new SingleList("Pós Parto S/A", SingleList.POSPARTO));
         list.add(new SingleList("Noivas S/A", SingleList.NOIVAS));
-        list.add(new SingleList("Facial  5 semanas", SingleList.FACIAL5));
-        list.add(new SingleList("Turbinada S/A 5 semanas", SingleList.TURBINADA));
+        list.add(new SingleList("Facial S/A", SingleList.FACIAL5));
+        list.add(new SingleList("Turbinada S/A", SingleList.TURBINADA));
         list.add(new SingleList("Mais S/A", SingleList.MAISSA));
 
         setListAdapter(new SingleImageListAdapter(this, list));

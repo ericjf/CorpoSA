@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public static final String COLUMN_ID = "id";
+    public static final String COLUMN_TRUEID  = "trueid";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_URL = "url";
@@ -29,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
                 TABLE_NOTICIAS + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_TITLE
-                + " TEXT," + COLUMN_DESCRIPTION + " TEXT," + COLUMN_URL + " TEXT" + ")";
+                + " TEXT," + COLUMN_DESCRIPTION + " TEXT," + COLUMN_URL + " TEXT," + COLUMN_TRUEID + " INTEGER" + ")";
         db.execSQL(CREATE_PRODUCTS_TABLE);
     }
 
@@ -50,6 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_TITLE, noticia.getTitle());
         values.put(COLUMN_DESCRIPTION, noticia.getDescription());
         values.put(COLUMN_URL, noticia.getUrl());
+        values.put (COLUMN_TRUEID, noticia.getId());
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -76,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             noticia.setTitle(cursor.getString(1));
             noticia.setDescription(cursor.getString(2));
             noticia.setUrl(cursor.getString(3));
+            noticia.setTrueid(Integer.parseInt(cursor.getString(4)));
             cursor.close();
         }
 
@@ -107,6 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             noticia.setTitle(cursor.getString(1));
             noticia.setDescription(cursor.getString(2));
             noticia.setUrl(cursor.getString(3));
+            noticia.setTrueid(Integer.parseInt(cursor.getString(4)));
             arrayList.add(noticia);
 
             while (cursor.moveToNext()) {
@@ -116,6 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 aux.setTitle(cursor.getString(1));
                 aux.setDescription(cursor.getString(2));
                 aux.setUrl(cursor.getString(3));
+                aux.setTrueid(Integer.parseInt(cursor.getString(4)));
                 arrayList.add(aux);
 
             }
@@ -131,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         boolean noticiaById = false;
 
-        String query = "Select * FROM " + TABLE_NOTICIAS + " WHERE " + COLUMN_ID + " =  \"" + id + "\"";
+        String query = "Select * FROM " + TABLE_NOTICIAS + " WHERE " + COLUMN_TRUEID + " =  \"" + id + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query , null);
 
@@ -163,6 +168,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     new String[] { String.valueOf(noticia.getId()) });
             cursor.close();
             result = true;
+        }
+        db.close();
+        return result;
+    }
+
+    public boolean deleteNoticias(){
+
+        boolean result = false;
+
+        String query = "Select * FROM " + TABLE_NOTICIAS + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        Noticia noticia = new Noticia();
+
+        if(cursor.moveToFirst()) {
+
+            noticia.setId(Integer.parseInt(cursor.getString(0)));
+            db.delete(TABLE_NOTICIAS, COLUMN_ID + " = ?",
+                    new String[] { String.valueOf(noticia.getId()) });
+            cursor.close();
+            result = true;
+
+            while (cursor.moveToNext()) {
+
+                noticia.setId(Integer.parseInt(cursor.getString(0)));
+                db.delete(TABLE_NOTICIAS, COLUMN_ID + " = ?",
+                        new String[] { String.valueOf(noticia.getId()) });
+                cursor.close();
+                result = true;
+            }
+            cursor.close();
         }
         db.close();
         return result;

@@ -27,27 +27,52 @@ public class NoticiaActivity extends Activity {
         DBImageHelper dbImageHelper = new DBImageHelper(this);
 
         Noticia noticia = databaseHelper.findNoticiaById(id);
+
+
         setContentView(R.layout.activity_noticia);
 
 
         TextView textViewTitle = (TextView) findViewById(R.id.titlenot);
         TextView textViewDesc = (TextView) findViewById(R.id.descnot);
+        ImageView imageView = (ImageView) findViewById(R.id.imgnot);
+
+
         String title = noticia.getTitle();
         String desc = noticia.getDescription();
         textViewTitle.setText(title);
         textViewDesc.setText(desc);
 
-        ImageHelper imageHelper  = dbImageHelper.getImage(id);
-        byte[] bytes = imageHelper.getImageByteArray();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        ImageView imageView  = (ImageView)findViewById(R.id.imgnot);
 
-        if(bitmap != null){
-            imageView.setImageBitmap(bitmap);
-        }
-        else{
+        int trueid = noticia.getTrueId();
+        String stringTrueId = Integer.toString(trueid);
+
+        setTitle(title);
+
+        ImageHelper imageHelper  = dbImageHelper.getImage(stringTrueId);
+
+
+        byte[] bytes = imageHelper.getImageByteArray();
+
+
+        if (bytes == null){
+            //    ImageView imageView = null;
+            //    imageView.setImageResource(R.drawable.corposa);
+            //   Bitmap bmap = imageView.getDrawingCache();
             imageView.setImageResource(R.drawable.corposa);
         }
+        else{
+            BitmapFactory.Options options = new BitmapFactory.Options(); options.inSampleSize = 4;
+            Bitmap bitmap = bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length,options);
+            //      BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
+            } else {
+                imageView.setImageResource(R.drawable.corposa);
+            }
+
+        }
+
+
         //Toast.makeText(getBaseContext(), "Received!" + noticia.getTitle() , Toast.LENGTH_LONG).show();
  }
 

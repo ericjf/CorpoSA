@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Compromissos extends ListActivity{
 
-    static final ArrayList<PositionIntId> positionIntIds = new ArrayList<PositionIntId>();
+    ArrayList<PositionIntId> positionIntIds = new ArrayList<PositionIntId>();
     DBAgenda databaseHelper = new DBAgenda(this);
 
     @Override
@@ -24,6 +24,7 @@ public class Compromissos extends ListActivity{
 
         super.onCreate(savedInstanceState);
         ArrayList<AgendaSingleList> list = new ArrayList<AgendaSingleList>();
+
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -34,6 +35,7 @@ public class Compromissos extends ListActivity{
 
         int flag = agendaObjetos.size();
         int i = 0;
+
 
         while(i < flag){
 
@@ -93,7 +95,8 @@ public class Compromissos extends ListActivity{
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        databaseHelper.deleteContact(positionIntIds.get(position).id);
+                        int idobjeto = positionIntIds.get(position).id;
+                        databaseHelper.deleteContact(idobjeto);
 
                         Intent thisIntent = getIntent();
                         startActivity(thisIntent);

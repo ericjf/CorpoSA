@@ -25,17 +25,8 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 
-import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 /**
  * This {@code IntentService} does the actual handling of the GCM message.
@@ -84,8 +75,10 @@ public class GcmIntentService extends IntentService {
                     }
                 }
                 Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
+                String mensagem = extras.getString("price");
                 // Post notification of received message.
-                sendNotification("Received: " + extras.toString());
+                sendNotification(mensagem);
+
                 Log.i(TAG, "Received: " + extras.toString());
             }
         }
@@ -105,8 +98,8 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.corposa)
-                        .setContentTitle("GCM Notification")
+                        .setSmallIcon(R.drawable.corposaicone)
+                        .setContentTitle("Corpo SA")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg);

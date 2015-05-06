@@ -3,6 +3,7 @@ package com.corposa.corposa;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,21 +19,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Home extends TabActivity implements TabHost.OnTabChangeListener {
@@ -43,23 +54,32 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
     GoogleCloudMessaging gcm;
     String SENDER_ID = "866649988233";
     String regid;
+    String CHAVE_CACHE = "devicetoken";
+    String CHAVE_CACHE_BANCO = "chavebanco";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-        registerInBackground();
-
         super.onCreate(savedInstanceState);
         TabHost tabHost = getTabHost();
         tabHost.setOnTabChangedListener(this);
+        if (isConnected()) {
+            if (checkPlayServices()) {
+                gcm = GoogleCloudMessaging.getInstance(this);
+                //regid = getRegistrationId(context);
 
+                //if (regid.isEmpty()) {
+                registerInBackground();
+                //}
+            } else {
+                Log.i("TAG1", "No valid Google Play Services APK found.");
+            }
+            new HttpAsyncTask().execute("http://162.243.229.85/getnews.php");
+        }
 
-
-        // call AsynTask to perform network operation on separate thread
-        new HttpAsyncTask().execute("http://162.243.229.85/getnews.php");
 
         // Inicializando Tab Início
         TabHost.TabSpec tab_inicio = tabHost.newTabSpec("Início");
@@ -102,15 +122,32 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
 
     }
 
-    /**
+     /**
      * @see android.widget.TabHost.TabContentFactory#createTabContent(String)
      */
 
-   // public View createTabContent(String tabId){
-   //     TextView tv = new TextView(this);
-   //     tv.setText("Utilizando uma Factory bla bla bla" + tabId);
-   //     return tv;
-   // }
+
+
+    private boolean checkPlayServices() {
+        try {
+            int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
+            if (resultCode != ConnectionResult.SUCCESS) {
+                if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                    GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                            PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                } else {
+                    Log.i("TAG", "This device is not supported.");
+                    finish();
+                }
+                return false;
+            }
+            return true;
+        }catch(Exception e){
+            Log.i("error",e.getMessage());
+            return false;
+        }
+    }
+
     private void registerInBackground() {
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -120,10 +157,20 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
                     if (gcm == null) {
                         gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
                     }
+
+
                     regid = gcm.register(SENDER_ID);
                     msg = "Device registered, registration ID=" + regid;
 
                     Log.i("ID", regid);
+                    FileOutputStream fos = openFileOutput(CHAVE_CACHE, Context.MODE_PRIVATE);
+                    if (fos.getChannel() != null){
+                        Log.i("ID", "Deu Certo");
+                    }
+                    else {
+                        SendtoPHP(regid);
+                    }
+
 
                     // You should send the registration ID to your server over HTTP, so it
                     // can use GCM/HTTP or CCS to send messages to your app.
@@ -150,6 +197,42 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
             }
         }.execute(null, null, null);
     }
+
+
+    //enviando para o backend
+    private void SendtoPHP(String reg) throws IOException {
+
+
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://bubbledev.com.br/gcm/getdevice.php");
+
+        try{
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("regid", "" + reg ));
+            nameValuePairs.add(new BasicNameValuePair("teste", "teste" ));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+
+
+            String devicetoken = regid.toString();
+
+
+            FileOutputStream fos = openFileOutput(CHAVE_CACHE, Context.MODE_PRIVATE);
+            fos.write(devicetoken.getBytes());
+            fos.close();
+
+
+
+        }
+        catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+
+    }
+
+
 
     public static String GET(String url){
         InputStream inputStream = null;
@@ -207,12 +290,12 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
         protected void onPostExecute(String result) {
 
 
-           // Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
+            // Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
             try{
 
                 //    DownloadImage down = new DownloadImage();
-                 //   down.imageid = "3";
-                 //   down.execute("http://bubbledev.com.br/images/imagem1.jpg");
+                //   down.imageid = "3";
+                //   down.execute("http://bubbledev.com.br/images/imagem1.jpg");
 
 
                 JSONArray jsonArray = new JSONArray(result);
@@ -230,19 +313,43 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
                     noticia.setUrl(img_url);
                     noticia.setId(idInt);
                     DatabaseHelper databaseHelper = new DatabaseHelper(getCurrentActivity(), null, null, 1);
-                    DBImageHelper dbImageHelper = new DBImageHelper(getCurrentActivity());
+
+                    FileOutputStream fos2 = openFileOutput(CHAVE_CACHE_BANCO, Context.MODE_PRIVATE);
+                    if (fos2.getChannel() != null){
+                        Log.i("ID", "Deu Certo");
+                    }
+                    else {
+
+                        Boolean Apaga = databaseHelper.deleteNoticias();
+                        fos2 = openFileOutput(CHAVE_CACHE_BANCO, Context.MODE_PRIVATE);
+                        String devicetoken2 = "feito";
+                        fos2.write(devicetoken2.getBytes());
+                        fos2.close();
+                    }
 
                     if(!databaseHelper.VerificaNoticiabyId(idInt)) {
 
 
-
-                    DownloadImage down = new DownloadImage();
-                    down.imageid = id;
-                    down.execute(img_url);
-                    databaseHelper.addProduct(noticia);
+                        if(!databaseHelper.VerificaNoticiabyId(idInt)) {
+                            if (noticia.getTitle() != null) {
+                                DBImageHelper dbImageHelper = new DBImageHelper(getCurrentActivity());
+                                DownloadImage down = new DownloadImage();
+                                down.imageid = id;
+                                down.execute(img_url);
+                                if(!databaseHelper.VerificaNoticiabyId(idInt)) {
+                                    databaseHelper.addProduct(noticia);
+                                }
+                            }
+                        }
                     }
+
+
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -259,12 +366,13 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
             // Create a progressdialog
             mProgressDialog = new ProgressDialog(Home.this);
             // Set progressdialog title
-            mProgressDialog.setTitle("Downloading Image!");
+            mProgressDialog.setTitle("Atualizando Dados");
             // Set progressdialog message
-            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setMessage("Carregando...");
             mProgressDialog.setIndeterminate(false);
             // Show progressdialog
             mProgressDialog.show();
+
         }
 
         @Override
@@ -286,11 +394,17 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
         @Override
         protected void onPostExecute(Bitmap result) {
             // Set the bitmap into ImageView
-            Bitmap bitmapteste = result;
-            Drawable drawable = new BitmapDrawable(bitmapteste);
-            DBImageHelper dbImageHelper = new DBImageHelper(getCurrentActivity());
-            dbImageHelper.insetImage(drawable, imageid);
-            mProgressDialog.dismiss();
+            if (result != null) {
+                Bitmap bitmapteste = result;
+                Drawable drawable = new BitmapDrawable(bitmapteste);
+                DBImageHelper dbImageHelper = new DBImageHelper(getCurrentActivity());
+                dbImageHelper.insetImage(drawable, imageid);
+                mProgressDialog.dismiss();
+            }
+            else{
+                mProgressDialog.dismiss();
+            }
+
         }
 
 
@@ -302,7 +416,7 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
 
     //public void onTabChanged(String tabId){
     ////    Log.i(CATEGORIA, "Trocou" + tabId);
-   // }
+    // }
     @Override
     public void onTabChanged(String tabId) {
         // TODO Auto-generated method stub
@@ -314,6 +428,8 @@ public class Home extends TabActivity implements TabHost.OnTabChangeListener {
 
         tabHost.getTabWidget().getChildAt(tabHost.getCurrentTab()).setBackgroundColor(Color.parseColor("#F6E6E7"));
     }
+
+
 
 
 

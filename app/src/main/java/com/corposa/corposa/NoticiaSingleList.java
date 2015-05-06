@@ -12,19 +12,20 @@ public class NoticiaSingleList {
     public String nome;
     private Context context;
     public String id;
+    public String trueid;
 
-    public NoticiaSingleList(String nome,String id, Context context){
+    public NoticiaSingleList(String nome,String id, Context context, String trueid){
 
         this.nome = nome;
         this.id = id;
         this.context=context;
-
+        this.trueid = trueid;
     }
 
     public Bitmap getimage(){
 
         DBImageHelper dbImageHelper = new DBImageHelper(context);
-        ImageHelper imageHelper  = dbImageHelper.getImage(id);
+        ImageHelper imageHelper  = dbImageHelper.getImage(trueid);
 
 
 
@@ -32,14 +33,16 @@ public class NoticiaSingleList {
 
 
         if (bytes == null){
-        //    ImageView imageView = null;
-        //    imageView.setImageResource(R.drawable.corposa);
-        //   Bitmap bmap = imageView.getDrawingCache();
+            //    ImageView imageView = null;
+            //    imageView.setImageResource(R.drawable.corposa);
+            //   Bitmap bmap = imageView.getDrawingCache();
             return null;
         }
         else{
 
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            BitmapFactory.Options options = new BitmapFactory.Options(); options.inSampleSize = 8;
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length,options);
+              //      BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             return  bitmap;
         }
     }

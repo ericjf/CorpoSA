@@ -19,7 +19,7 @@ public class Inicio extends Activity {
     ImageView slidingimage;
 
     private int[] IMAGE_IDS = {
-            R.drawable.slider2, R.drawable.slider4
+            R.drawable.slider2, R.drawable.slider4, R.drawable.imgtopo
     };
 
     @Override
